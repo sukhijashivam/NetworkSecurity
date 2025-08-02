@@ -34,16 +34,19 @@ class DataIngestion:
             database_name=self.data_ingestion_config.database_name
             collection_name=self.data_ingestion_config.collection_name
             self.mongo_client=pymongo.MongoClient(MONGO_DB_URL)
+            logging.info("Trying to fetch data from MongoDB...")
             collection=self.mongo_client[database_name][collection_name]
-
+            logging.info("Step 2: Fetching data from MongoDB")
             df=pd.DataFrame(list(collection.find()))
+            logging.info(f"Step 3: Fetched {len(df)} records")
+            
             if "_id" in df.columns.to_list():
                 df=df.drop(columns=["_id"],axis=1)
             
             df.replace({"na":np.nan},inplace=True)
             return df
         except Exception as e:
-            raise NetworkSecurityException
+            raise NetworkSecurityException(e,sys)
         
     def export_data_into_feature_store(self,dataframe: pd.DataFrame):
         try:
@@ -98,4 +101,4 @@ class DataIngestion:
             return dataingestionartifact
 
         except Exception as e:
-            raise NetworkSecurityException
+            raise NetworkSecurityException(e,sys)
