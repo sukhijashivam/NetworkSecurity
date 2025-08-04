@@ -96,6 +96,7 @@ async def download_file():
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))  # Render will give PORT env variable
+    port = int(os.environ.get("PORT", 10000))  # Render uses this PORT env variable
     app_run(app, host="0.0.0.0", port=port)
+
 
