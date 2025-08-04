@@ -4,7 +4,6 @@ from fastapi.responses import Response, FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
-from uvicorn import run as app_run
 import pandas as pd
 from datetime import datetime
 import pymongo
@@ -21,7 +20,7 @@ from networksecurity.constants.training_pipeline import (
     DATA_INGESTION_DATABASE_NAME,
 )
 
-# Load env
+# Load environment variables
 load_dotenv()
 mongo_db_url = os.getenv("MONGODB_URL_KEY")
 ca = certifi.where()
@@ -31,22 +30,25 @@ collection = database[DATA_INGESTION_COLLECTION_NAME]
 
 # FastAPI app init
 app = FastAPI()
-origins = ["*"]
+
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Templates folder
 templates = Jinja2Templates(directory="templates")
 
-
+# Root route
 @app.get("/", tags=["Root"])
 async def index():
     return RedirectResponse(url="/upload")
 
-
+# Training route
 @app.get("/train")
 async def train_route():
     try:
@@ -56,12 +58,12 @@ async def train_route():
     except Exception as e:
         raise NetworkSecurityException(e, sys)
 
-
+# Upload page
 @app.get("/upload")
 async def upload_page(request: Request):
     return templates.TemplateResponse("upload.html", {"request": request})
 
-
+# Prediction route
 @app.post("/predict")
 async def predict_route(request: Request, file: UploadFile = File(...)):
     try:
@@ -77,26 +79,21 @@ async def predict_route(request: Request, file: UploadFile = File(...)):
         output_file = f"prediction_output/output_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
         df.to_csv(output_file, index=False)
 
-        # ⬇️ Return DataFrame to template (not HTML string)
+        # Return prediction table
         return templates.TemplateResponse("table.html", {"request": request, "df": df})
 
     except Exception as e:
         raise NetworkSecurityException(e, sys)
 
-
+# Download latest prediction
 @app.get("/download")
 async def download_file():
     try:
-        # Get latest file
         list_of_files = glob.glob("prediction_output/*.csv")
         latest_file = max(list_of_files, key=os.path.getctime)
         return FileResponse(latest_file, filename="prediction_results.csv", media_type='text/csv')
     except Exception as e:
         raise NetworkSecurityException(e, sys)
 
-if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 8000))
-    app_run(app, host="0.0.0.0", port=port)
 
 
