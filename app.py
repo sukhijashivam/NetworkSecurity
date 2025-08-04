@@ -95,9 +95,7 @@ async def download_file():
     except Exception as e:
         raise NetworkSecurityException(e, sys)
 
-if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 8000))  # Render sets PORT env variable
-    app_run(app, host="0.0.0.0", port=port)
+
+
 
 
