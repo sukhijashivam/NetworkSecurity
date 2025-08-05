@@ -1,7 +1,10 @@
 services:
   - type: web
-    name: network-security-app
+    name: network-security
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app:app --host 0.0.0.0 --port 10000
-    plan: free
+    envVars:
+      - key: MONGODB_URL_KEY
+        value: mongodb+srv://shivamsukhija002:Shivam2005@cluster0.wwshxlj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+

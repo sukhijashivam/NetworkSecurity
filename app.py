@@ -94,9 +94,17 @@ async def download_file():
         return FileResponse(latest_file, filename="prediction_results.csv", media_type='text/csv')
     except Exception as e:
         raise NetworkSecurityException(e, sys)
+    
+from fastapi import FastAPI
 
-if __name__=="__main__":
-    app_run(app,host="0.0.0.0",port=8000)
+
+# Your route definitions here...
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
+
+
 
 
 
