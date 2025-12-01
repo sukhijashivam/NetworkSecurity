@@ -6,5 +6,5 @@ services:
     startCommand: uvicorn app:app --host 0.0.0.0 --port 10000
     envVars:
       - key: MONGODB_URL_KEY
-        value: mongodb+srv://shivamsukhija002:Shivam2005@cluster0.wwshxlj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+        value: mongodb+srv://garvkhullar1121_db_user:Garv123@cluster0.edswblb.mongodb.net/?appName=Cluster0
 
