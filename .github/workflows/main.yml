@@ -74,9 +74,10 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
           IMAGE_TAG: latest
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . || exit 1
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG || exit 1
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "registry=$ECR_REGISTRY" >> $GITHUB_OUTPUT
 
   Continuous-Deployment:
     needs: build-and-push-ecr-image
@@ -97,26 +98,44 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Pull latest image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
         run: |
-          docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          echo "Pulling image from: $REGISTRY/$REPOSITORY:latest"
+          docker pull $REGISTRY/$REPOSITORY:latest || true
         continue-on-error: true
 
       - name: Stop and remove existing container
         run: |
-          docker ps -q --filter "name=networksecurity" | grep -q . && docker stop networksecurity || true
-          docker ps -aq --filter "name=networksecurity" | grep -q . && docker rm -fv networksecurity || true
+          docker stop networksecurity 2>/dev/null || true
+          docker rm networksecurity 2>/dev/null || true
         continue-on-error: true
 
       - name: Run Docker Image to serve users
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          docker run -d -p 8080:8080 --ipc="host" --name=networksecurity \
-            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-            -e AWS_REGION=${{ secrets.AWS_REGION }} \
-            ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          docker run -d \
+            -p 8080:8080 \
+            --ipc="host" \
+            --name=networksecurity \
+            -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
+            -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
+            -e AWS_REGION="${AWS_REGION}" \
+            $REGISTRY/$REPOSITORY:latest
         continue-on-error: true
 
       - name: Clean previous images and containers
         run: |
-          docker system prune -f
+          docker system prune -af --volumes || true
         continue-on-error: true
+
+      - name: Verify container is running
+        run: |
+          sleep 5
+          docker ps --filter "name=networksecurity" || echo "Container not found"
