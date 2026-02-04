@@ -1,9 +1,0 @@
-[2026-02-04 12:18:20,727] INFO: Loading model & preprocessor...
-[2026-02-04 12:18:20,755] INFO: Model loaded successfully!
-[2026-02-04 12:18:20,829] INFO: Starting FastAPI server...
-[2026-02-04 12:18:32,099] INFO: Root '/' accessed
-[2026-02-04 12:18:32,132] INFO: Upload page opened
-[2026-02-04 12:19:07,150] INFO: Prediction requested: test.csv
-[2026-02-04 12:19:07,176] ERROR: Prediction failed: Error occurred in python script name [C:\Users\HP\OneDrive\Desktop\Network Security\networksecurity\utils\ml_utils\model\estimator.py] line number [20] error message ['DecisionTreeClassifier' object has no attribute 'monotonic_cst']
-[2026-02-04 12:19:12,040] INFO: Prediction requested: test.csv
-[2026-02-04 12:19:12,045] ERROR: Prediction failed: Error occurred in python script name [C:\Users\HP\OneDrive\Desktop\Network Security\networksecurity\utils\ml_utils\model\estimator.py] line number [20] error message ['DecisionTreeClassifier' object has no attribute 'monotonic_cst']

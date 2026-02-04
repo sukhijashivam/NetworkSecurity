@@ -2,8 +2,8 @@ from networksecurity.entity.artifact_entity import DataIngestionArtifact,DataVal
 from networksecurity.entity.config_entity import DataValidationConfig
 from networksecurity.exception.exception import NetworkSecurityException 
 from networksecurity.logging.logger import logging 
-from networksecurity.constants.training_pipeline import SCHEMA_FILE_PATH
-from scipy.stats import ks_2samp #for data dript (check two samples and tell whether there is data drift or not)
+from networksecurity.constant.training_pipeline import SCHEMA_FILE_PATH
+from scipy.stats import ks_2samp
 import pandas as pd
 import os,sys
 from networksecurity.utils.main_utils.utils import read_yaml_file,write_yaml_file
@@ -36,20 +36,6 @@ class DataValidation:
             return False
         except Exception as e:
             raise NetworkSecurityException(e,sys)
-        
-    def validate_numerical_columns(self, dataframe: pd.DataFrame) -> bool:
-        try:
-            expected_numerical_columns = self._schema_config.get("numerical_columns", [])
-            missing_numerical_columns = [
-                col for col in expected_numerical_columns if col not in dataframe.columns
-            ]
-            if missing_numerical_columns:
-                logging.warning(f"Missing numerical columns: {missing_numerical_columns}")
-                return False
-            return True
-        except Exception as e:
-            raise NetworkSecurityException(e, sys)
-
         
     def detect_dataset_drift(self,base_df,current_df,threshold=0.05)->bool:
         try:
@@ -98,19 +84,6 @@ class DataValidation:
             if not status:
                 error_message=f"Test dataframe does not contain all columns.\n"   
 
-            ## Validate numerical columns
-
-            status = self.validate_numerical_columns(dataframe=train_dataframe)
-            if not status:
-                error_message = f"Train dataframe is missing expected numerical columns.\n"
-                raise Exception(error_message)
-
-            status = self.validate_numerical_columns(dataframe=test_dataframe)
-            if not status:
-                error_message = f"Test dataframe is missing expected numerical columns.\n"
-                raise Exception(error_message)
-
-
             ## lets check datadrift
             status=self.detect_dataset_drift(base_df=train_dataframe,current_df=test_dataframe)
             dir_path=os.path.dirname(self.data_validation_config.valid_train_file_path)
@@ -136,3 +109,6 @@ class DataValidation:
             return data_validation_artifact
         except Exception as e:
             raise NetworkSecurityException(e,sys)
+
+
+

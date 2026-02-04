@@ -5,8 +5,8 @@ import pandas as pd
 from sklearn.impute import KNNImputer
 from sklearn.pipeline import Pipeline
 
-from networksecurity.constants.training_pipeline import TARGET_COLUMN
-from networksecurity.constants.training_pipeline import DATA_TRANSFORMATION_IMPUTER_PARAMS
+from networksecurity.constant.training_pipeline import TARGET_COLUMN
+from networksecurity.constant.training_pipeline import DATA_TRANSFORMATION_IMPUTER_PARAMS
 
 from networksecurity.entity.artifact_entity import (
     DataTransformationArtifact,
@@ -36,9 +36,16 @@ class DataTransformation:
         
     def get_data_transformer_object(cls)->Pipeline:
         """
-        
+        It initialises a KNNImputer object with the parameters specified in the training_pipeline.py file
+        and returns a Pipeline object with the KNNImputer object as the first step.
+
+        Args:
+          cls: DataTransformation
+
+        Returns:
+          A Pipeline object
         """
-        logging.info( 
+        logging.info(
             "Entered get_data_trnasformer_object method of Trnasformation class"
         )
         try:

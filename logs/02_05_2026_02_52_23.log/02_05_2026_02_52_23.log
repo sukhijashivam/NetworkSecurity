@@ -1,0 +1,104 @@
+[ 2026-02-05 02:52:55,426 ] 42 root - INFO - Start data Ingestion
+[ 2026-02-05 03:00:50,653 ] 74 root - INFO - Performed train test split on the dataframe
+[ 2026-02-05 03:00:50,654 ] 76 root - INFO - Exited split_data_as_train_test method of Data_Ingestion class
+[ 2026-02-05 03:00:50,655 ] 84 root - INFO - Exporting train and test file path.
+[ 2026-02-05 03:00:50,701 ] 93 root - INFO - Exported train and test file path.
+[ 2026-02-05 03:00:50,702 ] 45 root - INFO - Data Ingestion completed and artifact: DataIngestionArtifact(trained_file_path='Artifacts\\02_05_2026_02_52_25\\data_ingestion\\ingested\\train.csv', test_file_path='Artifacts\\02_05_2026_02_52_25\\data_ingestion\\ingested\\test.csv')
+[ 2026-02-05 03:00:50,715 ] 55 root - INFO - Initiate the data Validation
+[ 2026-02-05 03:00:50,794 ] 32 root - INFO - Required number of columns:2
+[ 2026-02-05 03:00:50,794 ] 33 root - INFO - Data frame has columns:31
+[ 2026-02-05 03:00:50,794 ] 32 root - INFO - Required number of columns:2
+[ 2026-02-05 03:00:50,795 ] 33 root - INFO - Data frame has columns:31
+[ 2026-02-05 03:00:50,952 ] 63 root - INFO - Entered initiate_data_transformation method of DataTransformation class
+[ 2026-02-05 03:00:50,952 ] 65 root - INFO - Starting data transformation
+[ 2026-02-05 03:00:50,973 ] 48 root - INFO - Entered get_data_trnasformer_object method of Trnasformation class
+[ 2026-02-05 03:00:50,974 ] 53 root - INFO - Initialise KNNImputer with {'missing_values': nan, 'n_neighbors': 3, 'weights': 'uniform'}
+[ 2026-02-05 03:00:51,006 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2026-02-05 03:00:51,011 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2026-02-05 03:00:51,011 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2026-02-05 03:00:51,014 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2026-02-05 03:04:21,641 ] 74 root - WARNING - MLflow tracking failed: 403: You have reached the limit of 100 experiments for a private repository in the free plan.
+Please upgrade to the Starter plan to increase the limit at https://dagshub.com/pricing?repo_id=52439
+[ 2026-02-05 03:04:22,184 ] 74 root - WARNING - MLflow tracking failed: 403: You have reached the limit of 100 experiments for a private repository in the free plan.
+Please upgrade to the Starter plan to increase the limit at https://dagshub.com/pricing?repo_id=52439
+[ 2026-02-05 03:04:22,218 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2026-02-05 03:04:22,221 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2026-02-05 03:04:22,221 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2026-02-05 03:04:22,282 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2026-02-05 03:04:22,283 ] 154 root - INFO - Model trainer artifact: ModelTrainerArtifact(trained_model_file_path='Artifacts\\02_05_2026_02_52_25\\model_trainer\\trained_model\\model.pkl', train_metric_artifact=ClassificationMetricArtifact(f1_score=0.9910313901345291, precision_score=0.9892166836215667, recall_score=0.9928527670002042), test_metric_artifact=ClassificationMetricArtifact(f1_score=0.9794628751974723, precision_score=0.9748427672955975, recall_score=0.9841269841269841))
+[ 2026-02-05 03:04:22,286 ] 94 root - INFO - Syncing artifacts to S3: s3://shivambucketnetwork/artifact/02_05_2026_02_52_25
+[ 2026-02-05 03:04:22,287 ] 13 root - INFO - Executing S3 sync command: aws s3 sync Artifacts\02_05_2026_02_52_25 s3://shivambucketnetwork/artifact/02_05_2026_02_52_25 
+[ 2026-02-05 03:04:46,222 ] 26 root - INFO - Successfully synced Artifacts\02_05_2026_02_52_25 to s3://shivambucketnetwork/artifact/02_05_2026_02_52_25
+[ 2026-02-05 03:04:46,222 ] 27 root - INFO - S3 sync output: Completed 781.4 KiB/7.2 MiB (1.5 MiB/s) with 10 file(s) remaining
+upload: Artifacts\02_05_2026_02_52_25\data_ingestion\feature_store\phisingData.csv to s3://shivambucketnetwork/artifact/02_05_2026_02_52_25/data_ingestion/feature_store/phisingData.csv
+Completed 781.4 KiB/7.2 MiB (1.5 MiB/s) with 9 file(s) remaining
+Completed 1.8 MiB/7.2 MiB (305.0 KiB/s) with 9 file(s) remaining
+Completed 2.4 MiB/7.2 MiB (409.8 KiB/s) with 9 file(s) remaining
+Completed 2.9 MiB/7.2 MiB (500.0 KiB/s) with 9 file(s) remaining
+Completed 2.9 MiB/7.2 MiB (481.3 KiB/s) with 9 file(s) remaining
+upload: Artifacts\02_05_2026_02_52_25\data_validation\drift_report\report.yaml to s3://shivambucketnetwork/artifact/02_05_2026_02_52_25/data_validation/drift_report/report.yaml
+Completed 2.9 MiB/7.2 MiB (481.3 KiB/s) with 8 file(s) remaining
+Completed 3.5 MiB/7.2 MiB (551.0 KiB/s) with 8 file(s) remaining
+Completed 4.5 MiB/7.2 MiB (706.1 KiB/s) with 8 file(s) remaining
+Completed 4.5 MiB/7.2 MiB (672.4 KiB/s) with 8 file(s) remaining
+upload: Artifacts\02_05_2026_02_52_25\model_trainer\trained_model\model.pkl to s3://shivambucketnetwork/artifact/02_05_2026_02_52_25/model_trainer/trained_model/model.pkl
+Completed 4.5 MiB/7.2 MiB (672.4 KiB/s) with 7 file(s) remaining
+Completed 4.7 MiB/7.2 MiB (649.0 KiB/s) with 7 file(s) remaining
+upload: Artifacts\02_05_2026_02_52_25\data_validation\validated\test.csv to s3://shivambucketnetwork/artifact/02_05_2026_02_52_25/data_validation/validated/test.csv
+Completed 4.7 MiB/7.2 MiB (649.0 KiB/s) with 6 file(s) remaining
+Completed 4.8 MiB/7.2 MiB (666.4 KiB/s) with 6 file(s) remaining
+upload: Artifacts\02_05_2026_02_52_25\data_ingestion\ingested\test.csv to s3://shivambucketnetwork/artifact/02_05_2026_02_52_25/data_ingestion/ingested/test.csv
+Completed 4.8 MiB/7.2 MiB (666.4 KiB/s) with 5 file(s) remaining
+Completed 5.8 MiB/7.2 MiB (765.0 KiB/s) with 5 file(s) remaining
+Completed 6.8 MiB/7.2 MiB (830.4 KiB/s) with 5 file(s) remaining
+upload: Artifacts\02_05_2026_02_52_25\data_ingestion\ingested\train.csv to s3://shivambucketnetwork/artifact/02_05_2026_02_52_25/data_ingestion/ingested/train.csv
+Completed 6.8 MiB/7.2 MiB (830.4 KiB/s) with 4 file(s) remaining
+upload: Artifacts\02_05_2026_02_52_25\data_transformation\transformed\test.npy to s3://shivambucketnetwork/artifact/02_05_2026_02_52_25/data_transformation/transformed/test.npy
+Completed 6.8 MiB/7.2 MiB (830.4 KiB/s) with 3 file(s) remaining
+Completed 7.1 MiB/7.2 MiB (810.4 KiB/s) with 3 file(s) remaining
+upload: Artifacts\02_05_2026_02_52_25\data_validation\validated\train.csv to s3://shivambucketnetwork/artifact/02_05_2026_02_52_25/data_validation/validated/train.csv
+Completed 7.1 MiB/7.2 MiB (810.4 KiB/s) with 2 file(s) remaining
+upload: Artifacts\02_05_2026_02_52_25\data_transformation\transformed_object\preprocessing.pkl to s3://shivambucketnetwork/artifact/02_05_2026_02_52_25/data_transformation/transformed_object/preprocessing.pkl
+Completed 7.1 MiB/7.2 MiB (810.4 KiB/s) with 1 file(s) remaining
+Completed 7.2 MiB/7.2 MiB (598.8 KiB/s) with 1 file(s) remaining
+upload: Artifacts\02_05_2026_02_52_25\data_transformation\transformed\train.npy to s3://shivambucketnetwork/artifact/02_05_2026_02_52_25/data_transformation/transformed/train.npy
+
+[ 2026-02-05 03:04:46,222 ] 96 root - INFO - Artifact sync to S3 completed
+[ 2026-02-05 03:04:46,224 ] 105 root - INFO - Syncing final model to S3: s3://shivambucketnetwork/final_model/02_05_2026_02_52_25
+[ 2026-02-05 03:04:46,224 ] 13 root - INFO - Executing S3 sync command: aws s3 sync final_model s3://shivambucketnetwork/final_model/02_05_2026_02_52_25 
+[ 2026-02-05 03:05:06,511 ] 26 root - INFO - Successfully synced final_model to s3://shivambucketnetwork/final_model/02_05_2026_02_52_25
+[ 2026-02-05 03:05:06,511 ] 27 root - INFO - S3 sync output: Completed 1.0 MiB/28.4 MiB (1.8 MiB/s) with 2 file(s) remaining
+Completed 2.0 MiB/28.4 MiB (1009.0 KiB/s) with 2 file(s) remaining
+Completed 3.0 MiB/28.4 MiB (1.1 MiB/s) with 2 file(s) remaining   
+Completed 4.0 MiB/28.4 MiB (1.4 MiB/s) with 2 file(s) remaining   
+Completed 5.0 MiB/28.4 MiB (1.7 MiB/s) with 2 file(s) remaining   
+Completed 6.0 MiB/28.4 MiB (1.8 MiB/s) with 2 file(s) remaining   
+Completed 7.0 MiB/28.4 MiB (2.0 MiB/s) with 2 file(s) remaining   
+Completed 8.0 MiB/28.4 MiB (2.3 MiB/s) with 2 file(s) remaining   
+Completed 9.0 MiB/28.4 MiB (2.2 MiB/s) with 2 file(s) remaining   
+Completed 10.0 MiB/28.4 MiB (2.4 MiB/s) with 2 file(s) remaining  
+Completed 11.0 MiB/28.4 MiB (2.5 MiB/s) with 2 file(s) remaining  
+Completed 12.0 MiB/28.4 MiB (2.7 MiB/s) with 2 file(s) remaining  
+Completed 13.0 MiB/28.4 MiB (2.6 MiB/s) with 2 file(s) remaining  
+Completed 14.0 MiB/28.4 MiB (2.8 MiB/s) with 2 file(s) remaining  
+Completed 15.0 MiB/28.4 MiB (2.8 MiB/s) with 2 file(s) remaining  
+Completed 16.0 MiB/28.4 MiB (3.0 MiB/s) with 2 file(s) remaining  
+Completed 17.0 MiB/28.4 MiB (3.1 MiB/s) with 2 file(s) remaining  
+Completed 18.0 MiB/28.4 MiB (3.2 MiB/s) with 2 file(s) remaining  
+Completed 19.0 MiB/28.4 MiB (3.1 MiB/s) with 2 file(s) remaining  
+Completed 20.0 MiB/28.4 MiB (3.2 MiB/s) with 2 file(s) remaining  
+Completed 21.0 MiB/28.4 MiB (3.2 MiB/s) with 2 file(s) remaining  
+Completed 21.3 MiB/28.4 MiB (3.2 MiB/s) with 2 file(s) remaining  
+Completed 22.3 MiB/28.4 MiB (3.3 MiB/s) with 2 file(s) remaining  
+Completed 23.3 MiB/28.4 MiB (3.3 MiB/s) with 2 file(s) remaining  
+Completed 24.3 MiB/28.4 MiB (3.3 MiB/s) with 2 file(s) remaining  
+Completed 25.3 MiB/28.4 MiB (3.4 MiB/s) with 2 file(s) remaining  
+upload: final_model\preprocessor.pkl to s3://shivambucketnetwork/final_model/02_05_2026_02_52_25/preprocessor.pkl
+Completed 25.3 MiB/28.4 MiB (3.4 MiB/s) with 1 file(s) remaining
+Completed 25.4 MiB/28.4 MiB (3.3 MiB/s) with 1 file(s) remaining
+Completed 26.4 MiB/28.4 MiB (3.4 MiB/s) with 1 file(s) remaining
+Completed 27.4 MiB/28.4 MiB (3.5 MiB/s) with 1 file(s) remaining
+Completed 28.4 MiB/28.4 MiB (3.5 MiB/s) with 1 file(s) remaining
+upload: final_model\model.pkl to s3://shivambucketnetwork/final_model/02_05_2026_02_52_25/model.pkl
+
+[ 2026-02-05 03:05:06,512 ] 107 root - INFO - Model sync to S3 completed
