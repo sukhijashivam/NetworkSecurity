@@ -1,23 +1,24 @@
-# app.py
-
 import os
 import sys
 import glob
-from datetime import datetime
 import pandas as pd
+from datetime import datetime
+
 from fastapi import FastAPI, File, UploadFile, Request, HTTPException
 from fastapi.responses import Response, FileResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
+
 from dotenv import load_dotenv
 import certifi
 import pymongo
-import joblib   # ✅ Added: direct model loading (most reliable)
+import joblib
 
+from networksecurity.logging.logger import logger
 from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.pipeline.training_pipeline import TrainingPipeline
 from networksecurity.utils.main_utils.feature_extraction import extract_all_features
-from networksecurity.utils.ml_utils.model.estimator import NetworkModel   # IMPORTANT
+from networksecurity.utils.ml_utils.model.estimator import NetworkModel
 
 # ---------------- ENV & MONGO ---------------- #
 
@@ -57,53 +58,52 @@ network_model = None
 preprocessor = None
 
 try:
-    print("🔍 Loading model...")
-    
-    # IMPORTANT: import NetworkModel BEFORE loading
-    from networksecurity.utils.ml_utils.model.estimator import NetworkModel
+    logger.info("Loading model & preprocessor...")
 
     preprocessor = joblib.load(PREPROCESSOR_PATH)
     model = joblib.load(MODEL_PATH)
 
-    # Combine model + preprocessor into a NetworkModel wrapper
     network_model = NetworkModel(preprocessor=preprocessor, model=model)
 
-    print("✅ Model Loaded Successfully!")
+    logger.info("Model loaded successfully!")
 
 except Exception as e:
-    print("\n❌ ERROR loading model or preprocessor:")
-    print(e)
+    logger.error(f"Model loading FAILED: {e}")
     network_model = None
 
 # ---------------- ROUTES ---------------- #
 
-@app.get("/", tags=["Root"])
+@app.get("/")
 async def index():
+    logger.info("Root '/' accessed")
     return RedirectResponse(url="/upload")
 
 
-@app.get("/train", tags=["Training"])
+@app.get("/train")
 async def train_route():
     try:
+        logger.info("Training started...")
         train_pipeline = TrainingPipeline()
         train_pipeline.run_pipeline()
-        return Response("✅ Training Completed Successfully!")
+        logger.info("Training completed successfully!")
+        return Response("Training Completed Successfully!")
     except Exception as e:
+        logger.error("Training failed!")
         raise NetworkSecurityException(e, sys)
 
 
-@app.get("/upload", tags=["Upload"])
+@app.get("/upload")
 async def upload_page(request: Request):
+    logger.info("Upload page opened")
     return templates.TemplateResponse("upload.html", {"request": request})
 
 
 # -------- CSV Prediction -------- #
 
-@app.post("/predict", tags=["Prediction"])
+@app.post("/predict")
 async def predict_route(request: Request, file: UploadFile = File(...)):
     try:
-        if not network_model:
-            raise HTTPException(status_code=500, detail="Model not loaded.")
+        logger.info(f"Prediction requested: {file.filename}")
 
         df = pd.read_csv(file.file)
 
@@ -114,52 +114,56 @@ async def predict_route(request: Request, file: UploadFile = File(...)):
         df["predicted_column"] = y_pred
 
         os.makedirs("prediction_output", exist_ok=True)
-        output_file = f"prediction_output/output_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-        df.to_csv(output_file, index=False)
+        path = f"prediction_output/output_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        df.to_csv(path, index=False)
+
+        logger.info(f"Prediction completed. Saved to {path}")
 
         return templates.TemplateResponse("table.html", {"request": request, "df": df})
 
     except Exception as e:
+        logger.error(f"Prediction failed: {e}")
         raise NetworkSecurityException(e, sys)
 
 
 # -------- Download Prediction -------- #
 
-@app.get("/download", tags=["Prediction"])
+@app.get("/download")
 async def download_file():
     try:
-        list_of_files = glob.glob("prediction_output/*.csv")
-        if not list_of_files:
-            raise HTTPException(status_code=404, detail="No prediction files found.")
+        files = glob.glob("prediction_output/*.csv")
+        if not files:
+            raise HTTPException(status_code=404, detail="No files found")
 
-        latest_file = max(list_of_files, key=os.path.getctime)
-        return FileResponse(
-            latest_file,
-            filename="prediction_results.csv",
-            media_type="text/csv",
-        )
+        latest_file = max(files, key=os.path.getctime)
+        logger.info(f"Downloading file: {latest_file}")
+
+        return FileResponse(latest_file, filename="prediction_results.csv")
 
     except Exception as e:
+        logger.error(f"Download failed: {e}")
         raise NetworkSecurityException(e, sys)
 
 
 # -------- Real-time URL Checker -------- #
 
-@app.get("/check_url", tags=["Real-time URL Check"])
+@app.get("/check_url")
 async def check_url(url: str):
     try:
-        if not network_model:
-            raise HTTPException(status_code=500, detail="Model not loaded.")
+        logger.info(f"Real-time URL check: {url}")
 
         features = extract_all_features(url)
-        X = pd.DataFrame([features])
-        pred = network_model.predict(X)[0]
+        df = pd.DataFrame([features])
 
+        pred = network_model.predict(df)[0]
         result = "Legitimate" if pred == 1 else "Phishing"
 
-        return {"url": url, "prediction": result, "features": features}
+        logger.info(f"URL: {url} | Prediction: {result}")
+
+        return {"url": url, "prediction": result}
 
     except Exception as e:
+        logger.error(f"Real-time URL check failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -167,5 +171,5 @@ async def check_url(url: str):
 
 if __name__ == "__main__":
     import uvicorn
-
+    logger.info("Starting FastAPI server...")
     uvicorn.run(app, host="127.0.0.1", port=8000)
