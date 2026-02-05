@@ -88,6 +88,34 @@ jobs:
         with:
           mask-password: 'true'
 
+      - name: Deploy to EC2 via SSM
+        if: always()
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
+          INSTANCE_ID: ${{ secrets.EC2_INSTANCE_ID }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          if [ -z "$INSTANCE_ID" ]; then
+            echo "EC2 instance id (secret EC2_INSTANCE_ID) not provided; skipping SSM deploy."
+            exit 0
+          fi
+
+          IMAGE_URI="$REGISTRY/$REPOSITORY:latest"
+          echo "Deploying $IMAGE_URI to instance $INSTANCE_ID via SSM"
+
+          # Send command to instance to login to ECR, pull image and run container
+          CMD_ID=$(aws ssm send-command \
+            --instance-ids "$INSTANCE_ID" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Deploy networksecurity app" \
+            --parameters commands="[\"/bin/sh -c 'aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY'\",\"/bin/sh -c 'docker pull $IMAGE_URI || true'\",\"/bin/sh -c 'docker stop networksecurity 2>/dev/null || true'\",\"/bin/sh -c 'docker rm networksecurity 2>/dev/null || true'\",\"/bin/sh -c 'docker run -d -p 8080:8080 --ipc=\"host\" --name=networksecurity $IMAGE_URI'\"]" \
+            --region $AWS_REGION \
+            --output text --query "Command.CommandId")
+
+          echo "SSM command sent: $CMD_ID"
+          echo "You can check invocation status in the AWS console or via: aws ssm list-command-invocations --command-id $CMD_ID --details --region $AWS_REGION"
+
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
