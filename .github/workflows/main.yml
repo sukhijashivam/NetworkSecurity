@@ -195,7 +195,7 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           docker run -d \
-            -p 8080:8080 \
+            -p 8080:8000 \
             --ipc="host" \
             --name=networksecurity \
             -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
