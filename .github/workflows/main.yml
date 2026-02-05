@@ -51,10 +51,27 @@ jobs:
       - name: Verify AWS Credentials and IAM Permissions
         run: |
           if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ] || [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
-            echo "ERROR: AWS credentials not configured"
+            echo "❌ ERROR: AWS credentials not configured"
             exit 1
           fi
-          echo "AWS credentials verified"
+          
+          if [ -z "${{ secrets.AWS_ACCOUNT_ID }}" ]; then
+            echo "⚠️  WARNING: AWS_ACCOUNT_ID secret not set (needed for fallback registry)"
+          fi
+          
+          if [ -z "${{ secrets.ECR_REPOSITORY_NAME }}" ]; then
+            echo "❌ ERROR: ECR_REPOSITORY_NAME secret not configured"
+            exit 1
+          fi
+          
+          if [ -z "${{ secrets.AWS_REGION }}" ]; then
+            echo "❌ ERROR: AWS_REGION secret not configured"
+            exit 1
+          fi
+          
+          echo "✓ AWS credentials verified"
+          echo "✓ ECR_REPOSITORY_NAME verified: ${{ secrets.ECR_REPOSITORY_NAME }}"
+          echo "✓ AWS_REGION verified: ${{ secrets.AWS_REGION }}"
           echo "NOTE: Ensure your AWS IAM user has ecr:GetAuthorizationToken permission"
 
       - name: Configure AWS credentials
@@ -77,12 +94,33 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
           IMAGE_TAG: latest
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . || exit 1
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG || exit 1
+          echo "ECR_REGISTRY: $ECR_REGISTRY"
+          echo "ECR_REPOSITORY: $ECR_REPOSITORY"
+          echo "AWS_REGION: $AWS_REGION"
+          
+          # Check if registry is empty and construct if needed
+          if [ -z "$ECR_REGISTRY" ]; then
+            echo "Registry is empty, constructing from account ID and region"
+            ECR_REGISTRY="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
+          fi
+          
+          echo "Using ECR_REGISTRY: $ECR_REGISTRY"
+          
+          # Build image
+          echo "Building Docker image..."
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . || { echo "Docker build failed"; exit 1; }
+          
+          # Push image
+          echo "Pushing Docker image to ECR..."
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG || { echo "Docker push failed"; exit 1; }
+          
+          # Set output
           IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
-          echo "Image built and pushed: $IMAGE_URI"
+          echo "✓ Image built and pushed successfully: $IMAGE_URI"
 
   Continuous-Deployment:
     needs: build-and-push-ecr-image
