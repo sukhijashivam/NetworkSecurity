@@ -441,14 +441,11 @@ Upload a CSV file for batch predictions.
 | F1 Score | 95.2% |
 | ROC-AUC | 97.3% |
 
-### Confusion Matrix
+
 
 ```
-                Predicted
-                Normal  Malicious
-Actual Normal     850      15
-     Malicious     35     100
-```
+
+``
 
 ### Feature Importance
 
@@ -466,13 +463,13 @@ Top 5 most important features:
 #### 1. Build Docker Image
 
 ```bash
-docker build -t network-security:latest .
+docker build -t networksecurity:latest .
 ```
 
 #### 2. Run Docker Container
 
 ```bash
-docker run -p 5000:5000 \
+docker run -p 8080:8000 \
     -e MONGO_DB_URL=your_mongo_url \
     -e AWS_ACCESS_KEY_ID=your_key \
     -e AWS_SECRET_ACCESS_KEY=your_secret \
