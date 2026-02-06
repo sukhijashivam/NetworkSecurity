@@ -550,12 +550,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Shivam Sukhija**
 
 - GitHub: [@sukhijashivam](https://github.com/sukhijashivam)
-- Email: your.email@example.com
-- LinkedIn: [Your LinkedIn Profile](https://linkedin.com/in/yourprofile)
+- Email: shivamsukhija002@gmail.com
+- LinkedIn: [Your LinkedIn Profile](https://linkedin.com/in/shivam-sukhija-40a37429a/)
 
 ## 🙏 Acknowledgments
 
-- Dataset source: [Network Traffic Dataset]
+- Dataset source: [Phishing Data]
 - Inspiration: Real-world network security challenges
 - Special thanks to the open-source community
 
