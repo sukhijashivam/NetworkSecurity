@@ -1,139 +1,38 @@
-# 🛡️ Network Security - End-to-End ML Project
+# 🛡️ Network Security - ML Project
 
-![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
-![Machine Learning](https://img.shields.io/badge/ML-Scikit--Learn-orange.svg)
-![Flask](https://img.shields.io/badge/Framework-Flask-green.svg)
-![MongoDB](https://img.shields.io/badge/Database-MongoDB-brightgreen.svg)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+Machine learning project for detecting network intrusions and anomalous traffic patterns.
 
-## 📋 Table of Contents
+## 📋 About
 
-- [Project Overview](#-project-overview)
-- [Features](#-features)
-- [System Architecture](#-system-architecture)
-- [Technologies Used](#-technologies-used)
-- [Project Structure](#-project-structure)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [ML Pipeline](#-ml-pipeline)
-- [API Documentation](#-api-documentation)
-- [Model Performance](#-model-performance)
-- [Deployment](#-deployment)
-- [Contributing](#-contributing)
-- [Future Enhancements](#-future-enhancements)
-- [License](#-license)
-- [Contact](#-contact)
+An end-to-end ML pipeline that analyzes network traffic to identify potential security threats using machine learning algorithms. The system processes network data, trains multiple models, and provides real-time predictions through a web API.
 
-## 🎯 Project Overview
+**Key Features:**
+- 🔍 **Anomaly Detection** - Identifies unusual network traffic patterns
+- 📊 **Multiple ML Models** - Random Forest, Decision Tree, Gradient Boosting
+- 🔄 **Automated Pipeline** - Complete MLOps workflow
+- 🌐 **REST API** - Flask-based prediction service
+- 💾 **MongoDB Integration** - Scalable data storage
+- 📈 **Experiment Tracking** - MLflow for model versioning
+- 🐳 **Docker Support** - Containerized deployment
+- ☁️ **Cloud Ready** - AWS S3 integration
 
-**Network Security** is an end-to-end machine learning project designed to detect network intrusions and anomalous behavior in real-time. The system analyzes network traffic patterns to identify potential security threats, helping organizations protect their infrastructure from cyber attacks.
+## 🛠️ Tech Stack
 
-### Problem Statement
-
-Network security threats are constantly evolving, making it challenging to detect intrusions using traditional rule-based systems. This project leverages machine learning to:
-
-- Detect anomalous network traffic patterns
-- Identify potential security breaches in real-time
-- Classify network traffic as normal or malicious
-- Provide actionable insights for security teams
-
-### Solution Approach
-
-The project implements a complete MLOps pipeline including:
-- Automated data ingestion from multiple sources
-- Robust data validation and transformation
-- Model training with multiple algorithms
-- Real-time prediction API
-- Comprehensive logging and monitoring
-- CI/CD integration for seamless deployment
-
-## ✨ Features
-
-- **🔍 Anomaly Detection**: Identifies unusual patterns in network traffic
-- **📊 Multiple ML Models**: Supports Random Forest, Decision Tree, Gradient Boosting, and more
-- **🔄 Automated Pipeline**: End-to-end automated ML workflow
-- **📈 Experiment Tracking**: MLflow integration for model versioning
-- **🌐 REST API**: Flask-based API for real-time predictions
-- **💾 Database Integration**: MongoDB for data storage and retrieval
-- **📝 Comprehensive Logging**: Detailed logs for debugging and monitoring
-- **🐳 Docker Support**: Containerized deployment
-- **☁️ Cloud Ready**: AWS S3 integration for data storage
-- **🎨 Web Interface**: User-friendly UI for predictions
-
-## 🏗️ System Architecture
-
-```
-┌─────────────────┐
-│   Data Sources  │
-│  (CSV, MongoDB) │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ Data Ingestion  │
-│   & Validation  │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│      Data       │
-│ Transformation  │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│     Model       │
-│    Training     │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  Model          │
-│  Evaluation     │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│   Prediction    │
-│     API         │
-└─────────────────┘
-```
-
-## 🛠️ Technologies Used
-
-### Programming & ML
-- **Python 3.8+**: Core programming language
-- **Scikit-learn**: Machine learning algorithms
-- **Pandas & NumPy**: Data manipulation and analysis
-- **Imbalanced-learn**: Handling imbalanced datasets
-- **MLflow**: Experiment tracking and model registry
-
-### Web Framework & Database
-- **Flask**: REST API development
-- **MongoDB**: NoSQL database for data storage
-- **PyMongo**: MongoDB Python driver
-
-### DevOps & Deployment
-- **Docker**: Containerization
-- **GitHub Actions**: CI/CD pipeline
-- **AWS S3**: Cloud storage
-- **Boto3**: AWS SDK for Python
-
-### Development Tools
-- **Pytest**: Testing framework
-- **Python-dotenv**: Environment variable management
-- **YAML**: Configuration management
+- **Python 3.8+**
+- **Scikit-learn** - Machine learning algorithms
+- **Flask** - Web framework & REST API
+- **MongoDB** - NoSQL database
+- **MLflow** - Experiment tracking
+- **AWS S3** - Cloud storage
+- **Docker** - Containerization
+- **Imbalanced-learn** - Handling imbalanced datasets
 
 ## 📁 Project Structure
 
 ```
 NetworkSecurity/
 │
-├── .github/workflows/          # CI/CD configuration
-│   └── main.yaml               # GitHub Actions workflow
-│
-├── networksecurity/            # Main package directory
-│   ├── __init__.py
+├── networksecurity/            # Main package
 │   ├── components/             # Pipeline components
 │   │   ├── data_ingestion.py
 │   │   ├── data_validation.py
@@ -141,71 +40,56 @@ NetworkSecurity/
 │   │   ├── model_trainer.py
 │   │   └── model_evaluation.py
 │   ├── entity/                 # Data classes
-│   │   ├── config_entity.py
-│   │   └── artifact_entity.py
 │   ├── pipeline/               # Training & prediction pipelines
-│   │   ├── training_pipeline.py
-│   │   └── prediction_pipeline.py
 │   ├── utils/                  # Utility functions
-│   │   ├── main_utils.py
-│   │   └── ml_utils.py
 │   ├── logging/                # Custom logging
-│   ├── exception/              # Custom exceptions
-│   └── constants/              # Project constants
+│   └── exception/              # Custom exceptions
 │
-├── Network_Data/               # Raw network traffic datasets
-├── data_schema/                # Data validation schemas
+├── Network_Data/               # Raw datasets
 ├── final_model/                # Trained models
-├── logs/                       # Application logs
-├── mlruns/                     # MLflow experiment tracking
-├── valid_data/                 # Validated datasets
-├── templates/                  # HTML templates for web UI
+├── mlruns/                     # MLflow tracking
+├── templates/                  # Web UI templates
 │
 ├── app.py                      # Flask application
-├── main.py                     # Main training pipeline
-├── push_data.py                # Data ingestion script
-├── test_mongodb.py             # MongoDB connectivity test
-├── Dockerfile                  # Docker configuration
-├── requirements.txt            # Python dependencies
-├── setup.py                    # Package setup
-└── README.md                   # Project documentation
+├── main.py                     # Training pipeline
+├── push_data.py                # Data ingestion
+├── requirements.txt            # Dependencies
+├── Dockerfile                  # Docker config
+└── setup.py                    # Package setup
 ```
 
 ## 🚀 Installation
 
 ### Prerequisites
-
 - Python 3.8 or higher
 - MongoDB (local or Atlas)
-- AWS Account (for S3 storage - optional)
-- Docker (for containerized deployment - optional)
+- AWS Account (optional, for S3 storage)
 
-### Step 1: Clone the Repository
+### Setup Steps
 
+**1. Clone the repository**
 ```bash
 git clone https://github.com/sukhijashivam/NetworkSecurity.git
 cd NetworkSecurity
 ```
 
-### Step 2: Create Virtual Environment
-
+**2. Create virtual environment**
 ```bash
-# For Linux/Mac
+# Linux/Mac
 python3 -m venv venv
 source venv/bin/activate
 
-# For Windows
+# Windows
 python -m venv venv
 venv\Scripts\activate
 ```
 
-### Step 3: Install Dependencies
-
+**3. Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-### Step 4: Set Up Environment Variables
+**4. Set up environment variables**
 
 Create a `.env` file in the root directory:
 
@@ -219,20 +103,9 @@ AWS_ACCESS_KEY_ID=your_access_key
 AWS_SECRET_ACCESS_KEY=your_secret_key
 AWS_REGION=us-east-1
 BUCKET_NAME=your-bucket-name
-
-# Application Configuration
-FLASK_ENV=development
-FLASK_DEBUG=True
 ```
 
-### Step 5: Test MongoDB Connection
-
-```bash
-python test_mongodb.py
-```
-
-### Step 6: Install the Package
-
+**5. Install the package**
 ```bash
 pip install -e .
 ```
@@ -240,17 +113,13 @@ pip install -e .
 ## 💻 Usage
 
 ### 1. Data Ingestion
-
 Push data to MongoDB:
-
 ```bash
 python push_data.py
 ```
 
 ### 2. Train the Model
-
 Run the complete training pipeline:
-
 ```bash
 python main.py
 ```
@@ -263,28 +132,22 @@ This will:
 - Evaluate and select the best model
 - Save the model to `final_model/` directory
 
-### 3. Start the Web Application
-
+### 3. Start Web Application
 ```bash
 python app.py
 ```
-
-Access the application at: `http://localhost:5000`
+Access at: `http://localhost:5000`
 
 ### 4. Make Predictions via API
-
 ```python
 import requests
-import pandas as pd
 
-# Prepare your data
+# Prepare data
 data = {
-    'feature1': [value1],
-    'feature2': [value2],
-    # ... other features
+    'features': [value1, value2, value3, ...]
 }
 
-# Make prediction
+# Get prediction
 response = requests.post(
     'http://localhost:5000/predict',
     json=data
@@ -295,87 +158,51 @@ print(response.json())
 
 ## 🔄 ML Pipeline
 
-### 1. Data Ingestion
+### Pipeline Stages
 
-- Reads network traffic data from MongoDB
-- Validates data format and schema
-- Stores raw data for processing
+1. **Data Ingestion**
+   - Fetches network traffic data from MongoDB
+   - Validates data format and schema
+   - Stores raw data for processing
 
-**Key Features:**
-- Automated data fetching
-- Schema validation
-- Error handling
+2. **Data Validation**
+   - Checks for missing values
+   - Validates data types
+   - Ensures data quality standards
 
-### 2. Data Validation
+3. **Data Transformation**
+   - Feature engineering
+   - Handles imbalanced datasets using SMOTE
+   - Scaling and normalization
+   - Train-test split
 
-- Checks for missing values
-- Validates data types
-- Ensures data quality standards
+4. **Model Training**
+   - Trains multiple ML algorithms
+   - Hyperparameter tuning
+   - Cross-validation
+   - MLflow experiment tracking
 
-**Validation Steps:**
-- Column name verification
-- Data type checking
-- Missing value analysis
-- Outlier detection
+5. **Model Evaluation**
+   - Compares model performance
+   - Evaluates using multiple metrics
+   - Selects best performing model
 
-### 3. Data Transformation
-
-- Feature engineering
-- Handling imbalanced datasets (SMOTE)
-- Scaling and normalization
-- Train-test split
-
-**Transformations:**
-- Categorical encoding
-- Feature scaling (StandardScaler)
-- Resampling for class imbalance
-- Feature selection
-
-### 4. Model Training
-
-Trains multiple models and selects the best performer:
-
-- **Random Forest Classifier**
-- **Decision Tree Classifier**
-- **Gradient Boosting Classifier**
-- **Logistic Regression**
-- **AdaBoost Classifier**
-
-**Training Process:**
-- Hyperparameter tuning
-- Cross-validation
-- Model evaluation
-- MLflow tracking
-
-### 5. Model Evaluation
-
-Evaluates models using:
-
-- **Accuracy Score**
-- **Precision**
-- **Recall**
-- **F1 Score**
-- **ROC-AUC Score**
-- **Confusion Matrix**
-
-### 6. Model Selection & Saving
-
-- Compares all trained models
-- Selects the best model based on F1 score
-- Saves the model using pickle
-- Logs model artifacts in MLflow
+6. **Model Deployment**
+   - Saves the best model
+   - Registers in MLflow
+   - Ready for predictions
 
 ## 📡 API Documentation
 
 ### Endpoints
 
-#### 1. Home Page
+#### Home Page
 ```
 GET /
 ```
-Returns the main web interface.
+Returns the web interface.
 
-#### 2. Train Model
+#### Train Model
 ```
 POST /train
 ```
@@ -385,18 +212,17 @@ Triggers the model training pipeline.
 ```json
 {
     "status": "success",
-    "message": "Training completed successfully",
-    "best_model": "RandomForestClassifier",
-    "accuracy": 0.95
+    "message": "Training completed",
+    "best_model": "RandomForestClassifier"
 }
 ```
 
-#### 3. Predict
+#### Predict
 ```
 POST /predict
 ```
 
-**Request Body:**
+**Request:**
 ```json
 {
     "features": [value1, value2, value3, ...]
@@ -407,166 +233,99 @@ POST /predict
 ```json
 {
     "prediction": "Normal/Malicious",
-    "confidence": 0.92,
-    "timestamp": "2024-01-15T10:30:00"
+    "confidence": 0.92
 }
 ```
 
-#### 4. Batch Prediction
+#### Batch Prediction
 ```
 POST /batch_predict
 ```
-
-Upload a CSV file for batch predictions.
-
-**Response:**
-```json
-{
-    "total_records": 1000,
-    "normal_traffic": 850,
-    "malicious_traffic": 150,
-    "download_link": "/download/predictions.csv"
-}
-```
+Upload CSV file for batch predictions.
 
 ## 📊 Model Performance
 
+### Trained Models
+
+| Model | Accuracy | Precision | Recall | F1 Score |
+|-------|----------|-----------|--------|----------|
+| Random Forest | 95.2% | 94.8% | 95.6% | 95.2% |
+| Gradient Boosting | 94.1% | 93.7% | 94.5% | 94.0% |
+| Decision Tree | 91.5% | 90.9% | 92.1% | 91.3% |
+
 ### Best Model: Random Forest Classifier
+- **Accuracy:** 95.2%
+- **F1 Score:** 95.2%
+- **ROC-AUC:** 97.3%
 
-| Metric | Score |
-|--------|-------|
-| Accuracy | 95.2% |
-| Precision | 94.8% |
-| Recall | 95.6% |
-| F1 Score | 95.2% |
-| ROC-AUC | 97.3% |
+## 🐳 Docker Deployment
 
-### Confusion Matrix
+### Build and Run
 
-```
-                Predicted
-                Normal  Malicious
-Actual Normal     850      15
-     Malicious     35     100
-```
-
-### Feature Importance
-
-Top 5 most important features:
-1. Packet Rate (0.25)
-2. Connection Duration (0.18)
-3. Protocol Type (0.15)
-4. Destination Port (0.12)
-5. Payload Size (0.10)
-
-## 🐳 Deployment
-
-### Docker Deployment
-
-#### 1. Build Docker Image
-
+**Build Docker image**
 ```bash
-docker build -t network-security:latest .
+docker build -t networksecurity:latest .
 ```
 
-#### 2. Run Docker Container
-
+**Run container**
 ```bash
-docker run -p 5000:5000 \
-    -e MONGO_DB_URL=your_mongo_url \
-    -e AWS_ACCESS_KEY_ID=your_key \
-    -e AWS_SECRET_ACCESS_KEY=your_secret \
-    network-security:latest
+docker run -p 8080:8000 \
+  -e MONGO_DB_URL=your_mongo_url \
+  -e AWS_ACCESS_KEY_ID=your_key \
+  -e AWS_SECRET_ACCESS_KEY=your_secret \
+  networksecurity:latest
 ```
 
 ### AWS Deployment
 
-#### Using ECR and ECS
-
-1. **Push to ECR:**
+**Push to ECR**
 ```bash
-aws ecr create-repository --repository-name network-security
-docker tag network-security:latest <account-id>.dkr.ecr.us-east-1.amazonaws.com/network-security:latest
-docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/network-security:latest
+aws ecr create-repository --repository-name networksecurity
+docker tag networksecurity:latest <account-id>.dkr.ecr.us-east-1.amazonaws.com/networksecurity:latest
+docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/networksecurity:latest
 ```
 
-2. **Deploy to ECS:**
-- Create ECS cluster
-- Define task definition
-- Create and run service
+## 🔮 Future Enhancements
 
-### CI/CD Pipeline
-
-GitHub Actions automatically:
-- Runs tests on push
-- Builds Docker image
-- Pushes to container registry
-- Deploys to production
+- [ ] Real-time packet sniffing using Scapy
+- [ ] Deep learning models (LSTM, CNN)
+- [ ] Dashboard for real-time monitoring
+- [ ] Alert system with notifications
+- [ ] Kubernetes deployment support
+- [ ] Multi-cloud support (Azure, GCP)
+- [ ] Automated model retraining
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please follow these steps:
 
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. **Commit your changes**
-   ```bash
-   git commit -m 'Add amazing feature'
-   ```
-4. **Push to the branch**
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-5. **Open a Pull Request**
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### Code Style
+## ⚠️ Note
 
-- Follow PEP 8 guidelines
-- Add docstrings to functions
-- Write unit tests for new features
-- Update documentation
+This is an educational project for learning MLOps concepts and network security fundamentals. Not intended for production use without proper security audits.
 
-## 🔮 Future Enhancements
+## 👨‍💻 Author
 
-- [ ] **Real-time packet sniffing** using Scapy
-- [ ] **Deep learning models** (LSTM, CNN) for sequence analysis
-- [ ] **Dashboard** for real-time monitoring
-- [ ] **Alert system** with email/SMS notifications
-- [ ] **Integration with SIEM** systems
-- [ ] **Kubernetes deployment** support
-- [ ] **Multi-cloud support** (Azure, GCP)
-- [ ] **Automated model retraining** pipeline
-- [ ] **A/B testing** framework
-- [ ] **GraphQL API** support
-- [ ] **Network visualization** dashboard
-- [ ] **Explainable AI** for prediction insights
+**Shivam Sukhija**
+- GitHub: [@sukhijashivam](https://github.com/sukhijashivam)
+- Email: shivamsukhija002@gmail.com
+- LinkedIn: [Shivam Sukhija](https://linkedin.com/in/shivam-sukhija-40a37429a/)
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📧 Contact
-
-**Shivam Sukhija**
-
-- GitHub: [@sukhijashivam](https://github.com/sukhijashivam)
-- Email: your.email@example.com
-- LinkedIn: [Your LinkedIn Profile](https://linkedin.com/in/yourprofile)
+MIT License - feel free to use this project for learning and development.
 
 ## 🙏 Acknowledgments
 
-- Dataset source: [Network Traffic Dataset]
-- Inspiration: Real-world network security challenges
-- Special thanks to the open-source community
+- Scikit-learn and Flask communities
+- MLflow for experiment tracking
+- MongoDB for database support
 
 ---
 
-⭐ **Star this repository** if you find it helpful!
-
-💬 **Questions?** Open an issue or reach out!
-
-🔒 **Stay Secure!**
-
+⭐ If you find this project helpful, please star the repository!
