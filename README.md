@@ -72,7 +72,7 @@ This project implements an intelligent network security system that leverages ma
 <img src="screenshots/05_train_success.png" alt="Training Success" width="800">
 
 ### Prediction Interface
-<img src="screenshots/06_predict_endpoint.png" alt="Predict Endpoint" width="800">
+<img src="screenshots/06_predict_request.png" alt="Predict Endpoint" width="800">
 
 ### Prediction Results
 <img src="screenshots/07_predict_response.png" alt="Prediction Results" width="800">
