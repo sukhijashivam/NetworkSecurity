@@ -1,13 +1,10 @@
 python-dotenv
 pandas
 numpy
-pymongo
-certifi
 pymongo[srv]
+certifi
 scikit-learn==1.3.2
-mlflow
-pyaml
-dagshub
+pyyaml
 fastapi
 uvicorn
 python-multipart
