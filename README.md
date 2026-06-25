@@ -1,7 +1,17 @@
 # 🛡️ Network Security - ML-Based Threat Detection System
 
-<div align="center">
+## 🌐 Live Demo
 
+| Resource | Link |
+|----------|------|
+| 🚀 Live API | http://13.63.53.142 |
+| 📖 Swagger UI | http://13.63.53.142/docs |
+| 📚 ReDoc | http://13.63.53.142/redoc |
+| 📄 Sample Test CSV | https://github.com/sukhijashivam/NetworkSecurity/blob/main/valid_data/test.csv |
+
+> **Note:** Download the sample CSV from the link above and upload it to the `/predict` endpoint to test the deployed model.
+
+<div align="center">
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
@@ -9,7 +19,6 @@
 
 **A production-ready machine learning system for detecting network intrusions and security threats in real-time**
 
-[Features](#-features) • [Demo](#-demo) • [Installation](#-installation) • [Usage](#-usage) • [API Docs](#-api-documentation)
 
 </div>
 
