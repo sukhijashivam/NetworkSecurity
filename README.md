@@ -11,7 +11,7 @@
 
 > **Note:** Download the sample CSV from the link above and upload it to the `/predict` endpoint to test the deployed model.
 
-<div align="center">
+
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
